@@ -1,6 +1,6 @@
 import React from 'react';
 
-//import './App.css';
+import './App.css';
 
 import { Navbar, NavbarBrand } from 'reactstrap';
 import Main from './components/MainComponent';
