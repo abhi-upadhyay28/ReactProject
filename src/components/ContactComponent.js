@@ -3,38 +3,21 @@ import {Breadcrumb,BreadcrumbItem, Button, Form, Row, FormGroup, Label, Col} fro
 import {Link} from 'react-router-dom';
 import {Control, LocalForm, Errors} from 'react-redux-form';
 
+
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !(val) || (val && val.length <= len);
+const minLength = (len) => (val) => (val) || (val && val.length >= len);
+const isNumber = (val) => !isNaN(Number(val));
+const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
+
 class Contact extends Component{
     constructor(props){
         super(props);
-        /*this.state={
-            firstname: '',
-            lastname: '',
-            telnum: '',
-            email: '',
-            agree: false,
-            contactType: 'Tel.',
-            message: '',
-            touched: {
-                firstname: false,
-                lastname: false,
-                telnum: false,
-                email: false
-            } 
-    };*/
+        
         this.handleSubmit = this.handleSubmit.bind(this);
-        //this.handleInputChange = this.handleInputChange.bind(this);
-        //this.handleBlur = this.handleBlur.bind(this);
     }
-    /*handleInputChange(event){
-        const target = event.target;
-        const value=target.type === 'checkbox' ? target.checked:target.value;
-        const name=target.name;
-        this.setState({
-            [name]: value
-        })
-    }  */
-    handleSubmit(values){
-        //event.preventDefault(); 
+    
+    handleSubmit(values){ 
         console.log("Current state is: "+JSON.stringify(values));
         alert("Current state is: "+JSON.stringify(values));
        
@@ -90,14 +73,19 @@ class Contact extends Component{
                                 <Col md={10}>
                                     <Control.text model=".firstname" id="firstname" name="firstname" placeholder="First Name" 
                                     className="form-control"
+                                    validators={{
+                                        required, minLength: minLength(3), maxLength: maxLength(15)
+                                    }}
                                     />
-                                      
-                                    {/* <FormFeedback valid>
-                                    That's a tasty looking email you've got there.
-                                    </FormFeedback>
-                                    <FormFeedback invalid>
-                                    Uh oh! Looks like there is an issue with your email. Please input a correct email.
-                                    </FormFeedback> */}
+                                    <Errors
+                                    className="text-danger"
+                                    model=".firstname"
+                                    show="touched"
+                                    messages={{
+                                        required: "Required",
+                                        minLength: "Must be greater than 2 characters",
+                                        maxLength: "Must be 15 characters or less"
+                                    }} />
                                 </Col>
                                 </Row>
                                 <Row className="form-group">                                
@@ -105,7 +93,18 @@ class Contact extends Component{
                                 <Col md={10}>
                                     <Control.text model=".lastname" id="lastname" name="lastname" placeholder="Last Name" 
                                     className="form-control"
-                                    />
+                                    validators={{
+                                        required, minLength: minLength(3), maxLength: maxLength(15)
+                                    }}/>
+                                    <Errors
+                                    className="text-danger"
+                                    model=".lastname"
+                                    show="touched"
+                                    messages={{
+                                        required: "Required",
+                                        minLength: "Must be greater than 2 characters",
+                                        maxLength: "Must be 15 characters or less"
+                                    }} />
                                    
                                 </Col>
                             </Row>
@@ -114,16 +113,37 @@ class Contact extends Component{
                                 <Col md={10}>
                                     <Control.text model=".telnum" id="telnum" name="telnum" placeholder="Tel. Number" 
                                     className="form-control"
-                                    />
-                                   
+                                    validators={{
+                                        required, minLength: minLength(3), maxLength: maxLength(15), isNumber
+                                    }}/>
+                                    <Errors
+                                    className="text-danger"
+                                    model=".telnum"
+                                    show="touched"
+                                    messages={{
+                                        required: "Required",
+                                        minLength: "Must be greater than 2 digits",
+                                        maxLength: "Must be 15 digits or less",
+                                        isNumber: "Must be a number"
+                                    }} />
                                 </Col>
                             </Row>
                             <Row className="form-group">
                                 <Label htmlFor="email" md={2}>Email</Label>
                                 <Col md={10}>
                                     <Control.text model=".email" id="email" name="email" placeholder="Email" 
-                                    className="form-control"/>
-                                    
+                                    className="form-control"
+                                    validators={{
+                                        required, validEmail
+                                    }}/>
+                                    <Errors
+                                    className="text-danger"
+                                    model=".email"
+                                    show="touched"
+                                    messages={{
+                                        required: "Required",
+                                        validEmail: "Invalid Email Address"
+                                    }} />
                                 </Col>
                             </Row>
                             <Row className="form-group">
