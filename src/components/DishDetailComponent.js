@@ -17,11 +17,13 @@ import {Link} from 'react-router-dom';
             return(<div></div>);
         }
     }
-    function RenderComments({comments}){
+    function RenderComments({comments, addComment, dishId}){
         if(comments!=null){
             const x =  comments;
             var dish = x.map(comm => {
             return (
+            <div className="col-12 col-md-5 m-1">
+            <h4>Comments</h4>
             <li key={comm.id}>
                 <p>{comm.comment}</p>
                 <p>--{comm.author},&nbsp;
@@ -32,6 +34,8 @@ import {Link} from 'react-router-dom';
                         }).format(new Date(comm.date))}
                 </p>
                 </li>
+                {/* <CommentForm dishId={dishId} addComment={addComment} /> */}
+                </div>
             );
         })
     }
@@ -70,7 +74,9 @@ import {Link} from 'react-router-dom';
                     <RenderDish dish= {props.dish}/>
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                    <RenderComments comments={props.comments} />
+                    <RenderComments comments={props.comments} 
+                    addComment={props.addComment}
+                    dishId={props.dish.id}/>
                     </div>
                 </div>
             </div>
