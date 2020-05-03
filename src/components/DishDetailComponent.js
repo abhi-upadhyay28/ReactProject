@@ -19,38 +19,44 @@ import {baseUrl} from '../shared/baseUrl'
             return(<div></div>);
         }
     }
-    function RenderComments({comments, addComment, dishId}){
+    function RenderComments({comments, postComment, dishId}){
         if(comments!=null){
-            const x =  comments;
-            var dish = x.map(comm => {
+            //const x =  comments;
+            //var dish = x.map(comm => {
             return (
             <div className="col-12 col-md-5 m-1">
             <h4>Comments</h4>
-            <li key={comm.id}>
-                <p>{comm.comment}</p>
-                <p>--{comm.author},&nbsp;
-                {new Intl.DateTimeFormat('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: '2-digit'
-                        }).format(new Date(comm.date))}
-                </p>
-                </li>
-                {/* <CommentForm dishId={dishId} addComment={addComment} /> */}
+            <ul className="list-unstyled">
+                {comments.map((comm) => {
+                    return (
+                        <li key={comm.id}>
+                        <p>{comm.comment}</p>
+                        <p>--{comm.author},&nbsp;
+                        {new Intl.DateTimeFormat('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: '2-digit'
+                                }).format(new Date(comm.date))}
+                        </p>
+                        </li>
+                    );
+                })}
+           
+                </ul>
+                {/* <CommentForm dishId={dishId} postComment={postComment} /> */}
                 </div>
             );
-        })
-    }
+        }
     else
     {
     return (<div></div>);
     }
-        return(
-                <div>
-                <h4>Comments</h4>
-                <ul class = "list-unstyled">{dish}</ul>
-                </div>
-        );
+        // return(
+        //         <div>
+        //         <h4>Comments</h4>
+        //         <ul class = "list-unstyled">{dish}</ul>
+        //         </div>
+        // );
        
     }
   const DishDetail=(props)=>{
@@ -98,7 +104,7 @@ import {baseUrl} from '../shared/baseUrl'
                     </div>
                     <div className="col-12 col-md-5 m-1">
                     <RenderComments comments={props.comments} 
-                    addComment={props.addComment}
+                    postComment={props.postComment}
                     dishId={props.dish.id}/>
                     </div>
                 </div>
